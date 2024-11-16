@@ -15,12 +15,20 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import com.example.send_receivemessageappkt.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
+
+//    initiating ViewBinding
+    lateinit var binding: ActivityMainBinding
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
-        setContentView(R.layout.activity_main)
+//        inflating layout of the .xml via ViewBinding
+        binding = ActivityMainBinding.inflate(layoutInflater)
+//        getting root of the .xml file via ViewBinding
+        setContentView(binding.root)
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
@@ -62,8 +70,15 @@ class MainActivity : AppCompatActivity() {
 
 //                    for loop for reading every sms. Getting message from default Message manager app
                     for (sms in Telephony.Sms.Intents.getMessagesFromIntent(intent)){
+
 //                        displaying message body of receiver message
-                        Toast.makeText(applicationContext,sms.displayMessageBody,Toast.LENGTH_LONG).show()
+//                        Toast.makeText(applicationContext,sms.displayMessageBody,Toast.LENGTH_LONG).show()
+
+//                        setting originationAddress edNum means Phone Number
+                        binding.edNum.setText(sms.originatingAddress)
+//                        setting displayMessageBody to edMessage means Phone Number
+                        binding.edMessage.setText(sms.displayMessageBody)
+
                     }
                 }
             }
