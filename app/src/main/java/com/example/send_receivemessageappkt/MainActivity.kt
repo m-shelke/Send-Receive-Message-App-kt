@@ -9,6 +9,7 @@ import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
 import android.provider.Telephony
+import android.telephony.SmsManager
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
@@ -42,6 +43,14 @@ class MainActivity : AppCompatActivity() {
         }else{
 //            calling receiveMsg() method
             receiveMsg()
+
+//            event listener on btSendID button
+            binding.btSendID.setOnClickListener {
+//              getting default message app of the device
+                var sms = SmsManager.getDefault()
+//                sending text message to enter number of edNum EditText. By passing some required argument
+                sms.sendTextMessage(binding.edNum.text.toString(),"ME",binding.edMessage.text.toString(),null,null)
+            }
         }
 
 
